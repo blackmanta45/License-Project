@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  recsys-api:
+    container_name: recsys-individual
+    restart: always
+    networks:
+      - recsys-network
+      - mssql-network
+      - ml-network
+    build: 
+      dockerfile: ./RecSysApi/Dockerfile
+      args:
+        COPY_FROM_PATH: ../Publish
+    ports:
+      - "5003:5003"
+
+networks:
+  recsys-network:
+    external: false
+    name: recsys-network
+  ml-network:
+    external: true
+  mssql-network:
+    external: true
+  

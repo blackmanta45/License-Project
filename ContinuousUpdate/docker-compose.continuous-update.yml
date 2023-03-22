@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  continuous-update:
+    container_name: continuous-update-individual
+    restart: always
+    networks:
+      - ml-network
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        COPY_FROM_PATH: .
+    environment:
+      - PRODUCTION=1
+    depends_on:
+      - classify-api
+      - searchforquery-api
+
+networks:
+  ml-network:
+    external: true
+  

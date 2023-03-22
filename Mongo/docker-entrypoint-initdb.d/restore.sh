@@ -1,0 +1,1 @@
+mongorestore -d UPV /docker-entrypoint-initdb.d/UPV

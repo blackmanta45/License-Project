@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  classify-api:
+    container_name: classify-api-individual
+    restart: always
+    networks:
+      - mongo-network
+      - mssql-network
+      - ml-network
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        COPY_FROM_PATH: .
+    ports:
+      - "5000:5000"
+    environment:
+      - PRODUCTION=1
+      - INDIVIDUAL=1
+    depends_on:
+      - mongo
+      - mssql
+    links:
+      - mongo
+      - mssql
+
+networks:
+  ml-network:
+    external: false
+    name: ml-network
+  mongo-network:
+    external: true
+  mssql-network:
+    external: true

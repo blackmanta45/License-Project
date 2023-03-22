@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  searchforquery-api:
+    container_name: searchforquery-api-individual
+    restart: always
+    networks:
+      - ml-network
+      - mongo-network
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        COPY_FROM_PATH: .
+    ports:
+      - "5001:5001"
+    environment:
+      - PRODUCTION=1
+    depends_on:
+      - mongo
+      - classify-api
+    links:
+      - mongo
+
+networks:
+  ml-network:
+    external: true
+  mongo-network:
+    external: true

@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  mssql:
+    container_name: MSSQL-database-individual
+    build: ./mssql_database
+    restart: always
+    networks:
+      - mssql-network
+    ports:
+      - '1433:1433'
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+networks:
+  mssql-network:
+    external: false
+    name: mssql-network
+
+volumes:
+  mssql-data:
+    driver: local

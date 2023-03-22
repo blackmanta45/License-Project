@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  mongo-express:
+    container_name: mongo-express-individual
+    image: mongo-express:1.0.0-alpha
+    restart: always
+    networks:
+      - mongo-network
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: username
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo-database-individual
+    image: mongo:5.0
+    restart: always
+    networks:
+      - mongo-network
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: UPV
+    volumes:
+      - mongo-data:/data/db
+      - ./docker-entrypoint-initdb.d/initdb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./docker-entrypoint-initdb.d/restore.sh:/docker-entrypoint-initdb.d/restore.sh
+      - ./docker-entrypoint-initdb.d/UPV:/docker-entrypoint-initdb.d/UPV
+      
+networks:
+  mongo-network:
+    external: false
+    name: mongo-network
+
+volumes:
+  mongo-data:
+    driver: local

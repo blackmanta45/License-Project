@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  tagsappender-api:
+    container_name: tagsappender-api-individual
+    restart: always
+    networks:
+      - mongo-network
+      - ml-network
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        COPY_FROM_PATH: .
+    ports:
+      - "5004:5004"
+    environment:
+      - PRODUCTION=1
+      - INDIVIDUAL=1
+    depends_on:
+      - mongo
+    links:
+      - mongo
+
+networks:
+  ml-network:
+    external: false
+    name: ml-network
+  mongo-network:
+    external: true
