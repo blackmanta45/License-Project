@@ -12,4 +12,5 @@ tensorflow-estimator==2.3.0
 tensorflow-hub==0.10.0
 wikipedia==1.4.0
 configparser==5.0.2
+protobuf==3.20
 dill
